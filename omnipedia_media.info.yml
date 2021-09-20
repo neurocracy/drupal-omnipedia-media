@@ -1,0 +1,8 @@
+name: Omnipedia - Media
+type: module
+description: Provides media-related functionality for Omnipedia.
+package: Omnipedia
+core_version_requirement: ^8 || ^9
+
+dependencies:
+  - drupal:media
