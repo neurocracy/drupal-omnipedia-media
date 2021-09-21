@@ -1,0 +1,10 @@
+services:
+
+  # Event subscriber to set a media entity's thumbnail to a provided poster.
+  omnipedia_media.entity_media_poster_to_thumbnail_event_subscriber:
+    class: Drupal\omnipedia_media\EventSubscriber\Entity\MediaPosterToThumbnailEventSubscriber
+    arguments:
+      - '@config.factory'
+      - '@entity_type.manager'
+    tags:
+      - { name: 'event_subscriber' }

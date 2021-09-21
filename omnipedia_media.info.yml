@@ -5,4 +5,12 @@ package: Omnipedia
 core_version_requirement: ^8 || ^9
 
 dependencies:
+  - drupal:file
+  - drupal:image
   - drupal:media
+  - hook_event_dispatcher:core_event_dispatcher
+
+config_devel:
+  install:
+    - field.field.media.video.field_poster
+    - field.storage.media.field_poster
