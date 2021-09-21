@@ -8,3 +8,9 @@ services:
       - '@entity_type.manager'
     tags:
       - { name: 'event_subscriber' }
+
+  # Event subscriber to add the poster to media video file fields.
+  omnipedia_media.preprocess_field_media_video_file_poster_event_subscriber:
+    class: Drupal\omnipedia_media\EventSubscriber\Preprocess\FieldMediaVideoFilePosterEventSubscriber
+    tags:
+      - { name: 'event_subscriber' }
