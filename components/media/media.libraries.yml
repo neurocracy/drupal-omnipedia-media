@@ -1,0 +1,6 @@
+component.media:
+  css:
+    component:
+      media.css: {}
+  js:
+    media.image.js: {}

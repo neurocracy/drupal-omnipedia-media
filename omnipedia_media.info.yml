@@ -5,13 +5,20 @@ package: Omnipedia
 core_version_requirement: ^8 || ^9
 
 dependencies:
+  - ambientimpact_media:ambientimpact_media
   - drupal:file
   - drupal:image
   - drupal:media
   - hook_event_dispatcher:core_event_dispatcher
   - hook_event_dispatcher:preprocess_event_dispatcher
+  - omnipedia_content:omnipedia_content
 
 config_devel:
   install:
+    - core.entity_view_mode.media.omnipedia_embedded
+    - core.entity_view_mode.media.omnipedia_embedded_group
+    - core.entity_view_display.media.image.omnipedia_embedded
+    - core.entity_view_display.media.image.omnipedia_embedded_group
     - field.field.media.video.field_poster
     - field.storage.media.field_poster
+    - image.style.omnipedia_embedded_group
