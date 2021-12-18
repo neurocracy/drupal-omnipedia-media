@@ -10,7 +10,7 @@
 ///
 /// @require {variable} general.$general-spacing
 ///
-$omnipedia-media-outer-spacing: general.$general-spacing !default;
+$outer-spacing: general.$general-spacing !default;
 
 @include breakpoint.add((
   // The minimum viewport width at which media can be floated left or right.
