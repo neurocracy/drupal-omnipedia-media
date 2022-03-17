@@ -12,6 +12,7 @@ dependencies:
   - hook_event_dispatcher:core_event_dispatcher
   - hook_event_dispatcher:preprocess_event_dispatcher
   - omnipedia_content:omnipedia_content
+  - webp:webp
 
 config_devel:
   install:
