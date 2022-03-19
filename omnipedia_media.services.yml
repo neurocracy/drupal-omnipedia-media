@@ -1,5 +1,11 @@
 services:
 
+  # The Omnipedia media help service.
+  omnipedia_media.help:
+    class: Drupal\omnipedia_media\Service\Help
+    arguments:
+      - '@string_translation'
+
   # Event subscriber to set a media entity's thumbnail to a provided poster.
   omnipedia_media.entity_media_poster_to_thumbnail_event_subscriber:
     class: Drupal\omnipedia_media\EventSubscriber\Entity\MediaPosterToThumbnailEventSubscriber
