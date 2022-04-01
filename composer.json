@@ -14,8 +14,6 @@
     "drupal/hook_event_dispatcher": "^2.0",
     "drupal/webp": "^1.0"
   },
-  "require-dev": {
-  },
   "extra": {
     "patches": {
       "drupal/webp": {
