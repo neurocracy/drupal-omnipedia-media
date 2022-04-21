@@ -35,7 +35,9 @@
 ]}) }}>
   <ol{{ create_attribute({'class': [base_class ~ '__list']}) }}>
   {% for item in items %}
-    <li{{ item.attributes }}>{{ item.content }}</li>
+    <li{{ item.attributes.addClass(
+    base_class ~ '__list-item'
+  ) }}>{{ item.content }}</li>
   {% endfor %}
   </ol>
 
