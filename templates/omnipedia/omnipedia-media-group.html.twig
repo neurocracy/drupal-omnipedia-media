@@ -5,8 +5,12 @@
  *
  * Available variables:
  *
- * - 'items': One or more media items, each containing a media element render
- *   array.
+ * - 'items': One or more media items, each containing the following keys:
+ *
+ *   - 'content': A media element render array.
+ *
+ *   - 'attributes': An Attribute object for the <li> element containing the
+ *     media element.
  *
  * - 'align': The direction to float this media element ('left' or 'right'), or
  *   no floating (a value of 'none').
@@ -31,7 +35,7 @@
 ]}) }}>
   <ol{{ create_attribute({'class': [base_class ~ '__list']}) }}>
   {% for item in items %}
-    <li>{{ item }}</li>
+    <li{{ item.attributes }}>{{ item.content }}</li>
   {% endfor %}
   </ol>
 

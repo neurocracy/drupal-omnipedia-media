@@ -2,7 +2,10 @@
 
 namespace Drupal\omnipedia_media\Plugin\Omnipedia\Element;
 
+use Drupal\ambientimpact_core\Utility\AttributeHelper;
+use Drupal\Core\Template\Attribute;
 use Drupal\omnipedia_content\Plugin\Omnipedia\Element\OmnipediaElementBase;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Media group element.
@@ -16,6 +19,13 @@ use Drupal\omnipedia_content\Plugin\Omnipedia\Element\OmnipediaElementBase;
  * )
  */
 class MediaGroup extends OmnipediaElementBase {
+
+  /**
+   * The item scale custom property name.
+   *
+   * @var string
+   */
+  protected const ITEM_SCALE_PROPERTY_NAME = '--media-group-item-scale';
 
   /**
    * {@inheritdoc}
@@ -32,6 +42,93 @@ class MediaGroup extends OmnipediaElementBase {
         'template'  => 'omnipedia-media-group',
       ],
     ];
+  }
+
+  /**
+   * Build item scale custom properties for the provided items.
+   *
+   * This takes the rendered markup from each item attempts to find the width
+   * and height on the <img> element, which it then uses to generate a custom
+   * property containing a width to height ratio as a float.
+   *
+   * This is completely atomic in the sense that if even a single item's width
+   * or height can't be determined, none of the items will be given the custom
+   * property. This is to avoid invalid or unexpected values from potentially
+   * breaking the media group layout and making it look worse and/or making
+   * the images invisible/inaccessible.
+   *
+   * @param array &$items
+   *   Array of items, each with a 'content' key and an 'attributes' key, the
+   *   latter which should already be an Attribute instance.
+   */
+  protected function buildItemScaleProperties(array &$items): void {
+
+    /** @var array Item dimensions, keyed by their corresponding $items keys. */
+    $itemDimensions = [];
+
+    foreach ($items as $i => &$item) {
+
+      /** @var \Symfony\Component\DomCrawler\Crawler */
+      $renderedCrawler = new Crawler($item['content']['#markup']);
+
+      try {
+
+        $imageCrawler = $renderedCrawler->filter('img');
+
+        $imageWidth   = (int) $imageCrawler->attr('width');
+        $imageHeight  = (int) $imageCrawler->attr('height');
+
+      } catch (\Exception $exception) {
+
+        return;
+
+      }
+
+      // Some basic validation that we have positive integers for both
+      // dimensions.
+      if (
+        !\is_int($imageWidth)   || $imageWidth < 1 ||
+        !\is_int($imageHeight)  || $imageHeight < 1
+      ) {
+
+        return;
+
+      }
+
+      $itemDimensions[$i] = [
+        'width'   => $imageWidth,
+        'height'  => $imageHeight,
+      ];
+
+    }
+
+    // If we got to this point, loop through all of the items and set the custom
+    // properties.
+    foreach ($itemDimensions as $i => $values) {
+
+      // If the 'style' attribute already exists, use it.
+      if ($items[$i]['attributes']->hasAttribute('style')) {
+
+        $itemStyleArray = AttributeHelper::parseStyleAttribute(
+          $items[$i]['attributes']->offsetGet('style')
+        );
+
+      } else {
+
+        $itemStyleArray = [];
+
+      }
+
+      $itemStyleArray[self::ITEM_SCALE_PROPERTY_NAME] = (
+        $values['width'] / $values['height']
+      );
+
+      $items[$i]['attributes']->setAttribute(
+        'style', AttributeHelper::serializeStyleArray($itemStyleArray)
+      );
+
+    }
+
   }
 
   /**
@@ -54,24 +151,29 @@ class MediaGroup extends OmnipediaElementBase {
         self::getTheme()['omnipedia_media_group']['variables']['view_mode']
       );
 
-      // Recursively convert and render any elements contained in this item.
       $items[] = [
-        // This bypasses any further rendering, including XSS filtering - which
-        // strips 'style' attributes that are needed for inline max-widths on
-        // image fields to function correctly.
-        //
-        // @todo Is this a security risk, given that the generated markup has
-        //   already been rendered in the element mananger via Drupal's
-        //   renderer?
-        //
-        // @see \Drupal\Component\Utility\Xss::attributes()
-        //   Strips 'style' attributes.
-        '#printed'  => true,
-        '#markup'   => $this->elementManager->convertElements(
-          $mediaElement->ownerDocument->saveHTML($mediaElement)
-        ),
+        'content' => [
+          // This bypasses any further rendering, including XSS filtering -
+          // which strips 'style' attributes that are needed for inline
+          // max-widths on image fields to function correctly.
+          //
+          // @todo Is this a security risk, given that the generated markup has
+          //   already been rendered in the element mananger via Drupal's
+          //   renderer?
+          //
+          // @see \Drupal\Component\Utility\Xss::attributes()
+          //   Strips 'style' attributes.
+          '#printed'  => true,
+          // Recursively convert and render any elements contained in this item.
+          '#markup'   => $this->elementManager->convertElements(
+            $mediaElement->ownerDocument->saveHTML($mediaElement)
+          ),
+        ],
+        'attributes' => new Attribute(),
       ];
     }
+
+    $this->buildItemScaleProperties($items);
 
     /** @var string|null */
     $align = $this->elements->attr('align');
