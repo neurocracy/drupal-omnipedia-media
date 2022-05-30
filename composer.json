@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "drupal/hook_event_dispatcher": "^2.0",
+    "drupal/hook_event_dispatcher": "^2.0 || ^3.0",
     "drupal/webp": "^1.0"
   },
   "extra": {
