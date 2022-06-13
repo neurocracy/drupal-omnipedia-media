@@ -1,5 +1,6 @@
-This contains the source files for the "[Omnipedia](https://omnipedia.app/) -
-Media" Drupal module.
+This contains the source files for the "*Omnipedia - Media*" Drupal module,
+which provides media-related functionality for
+[Omnipedia](https://omnipedia.app/).
 
 ⚠️⚠️⚠️ ***Here be potential spoilers. Proceed at your own risk.*** ⚠️⚠️⚠️
 
