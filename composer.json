@@ -12,6 +12,7 @@
   ],
   "require": {
     "php": "^8",
+    "cweagans/composer-patches": "^1.7",
     "drupal/hook_event_dispatcher": "^3.0",
     "drupal/webp": "^1.0"
   },
