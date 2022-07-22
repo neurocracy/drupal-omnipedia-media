@@ -47,9 +47,9 @@ class MediaGroup extends OmnipediaElementBase {
   /**
    * Build item scale custom properties for the provided items.
    *
-   * This takes the rendered markup from each item attempts to find the width
-   * and height on the <img> element, which it then uses to generate a custom
-   * property containing a width to height ratio as a float.
+   * This takes the rendered markup from each item and attempts to find the
+   * width and height on the <img> element, which it then uses to generate a
+   * custom property containing a width to height ratio as a float.
    *
    * This is completely atomic in the sense that if even a single item's width
    * or height can't be determined, none of the items will be given the custom
