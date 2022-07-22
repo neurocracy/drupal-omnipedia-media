@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\omnipedia_media\Plugin\Omnipedia\Element;
 
 use Drupal\ambientimpact_core\Utility\AttributeHelper;

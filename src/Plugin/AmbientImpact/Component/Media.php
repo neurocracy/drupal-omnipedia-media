@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\omnipedia_media\Plugin\AmbientImpact\Component;
 
 use Drupal\ambientimpact_core\ComponentBase;

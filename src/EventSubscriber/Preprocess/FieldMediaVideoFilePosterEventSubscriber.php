@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\omnipedia_media\EventSubscriber\Preprocess;
 
 use Drupal\preprocess_event_dispatcher\Event\FieldPreprocessEvent;
