@@ -137,6 +137,7 @@ class MediaGroup extends OmnipediaElementBase {
    * {@inheritdoc}
    */
   public function getRenderArray(): array {
+
     /** @var \Symfony\Component\DomCrawler\Crawler */
     $mediaElements = $this->elements->filter('media');
 
@@ -144,6 +145,7 @@ class MediaGroup extends OmnipediaElementBase {
     $items = [];
 
     foreach ($mediaElements as $mediaElement) {
+
       // @todo Should these be made configurable, and should these only be
       //   applied if they aren't already set by the author?
       $mediaElement->setAttribute('align', 'none');
@@ -205,6 +207,7 @@ class MediaGroup extends OmnipediaElementBase {
     }
 
     return $renderArray;
+
   }
 
 }

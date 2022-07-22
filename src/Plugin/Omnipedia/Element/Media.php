@@ -71,6 +71,7 @@ class Media extends OmnipediaElementBase {
     EntityStorageInterface      $mediaStorage,
     EntityViewBuilderInterface  $mediaViewBuilder
   ) {
+
     parent::__construct(
       $configuration, $pluginID, $pluginDefinition,
       $elementManager, $stringTranslation
@@ -127,10 +128,12 @@ class Media extends OmnipediaElementBase {
    *   is edited/added and begins to match that specific media name?
    */
   public function getRenderArray(): array {
+
     /** @var string|null */
     $name = $this->elements->attr('name');
 
     if ($name === null) {
+
       /** @var \Drupal\Core\StringTranslation\TranslatableMarkup */
       $error = $this->t('Cannot find the <code>name</code> attribute.');
 
@@ -140,6 +143,7 @@ class Media extends OmnipediaElementBase {
         '#theme'    => 'media_embed_error',
         '#message'  => $error,
       ];
+
     }
 
     $name = \trim($name);
@@ -149,6 +153,7 @@ class Media extends OmnipediaElementBase {
     $foundMedia = $this->mediaStorage->loadByProperties(['name' => $name]);
 
     if (count($foundMedia) === 0) {
+
       /** @var \Drupal\Core\StringTranslation\TranslatableMarkup */
       $error = $this->t(
         'Cannot find any media with the name "@name".',
@@ -177,6 +182,7 @@ class Media extends OmnipediaElementBase {
       }
 
       return $errorRenderArray;
+
     }
 
     // Grab the first media entity in the array.
@@ -217,14 +223,17 @@ class Media extends OmnipediaElementBase {
     $mediaRenderArray = $this->mediaViewBuilder->view($mediaEntity, $viewMode);
 
     if (!isset($mediaRenderArray['#attributes'])) {
+
       /** @var \Drupal\Core\Template\Attribute */
       $mediaRenderArray['#attributes'] = new Attribute();
+
     }
 
     /** @var string|null */
     $caption = $this->elements->attr('caption');
 
     if ($caption !== null) {
+
       $mediaRenderArray['#attributes']->setAttribute('data-caption', $caption);
 
       // This creates an element containing the caption, with two new lines
@@ -252,6 +261,7 @@ class Media extends OmnipediaElementBase {
       // the caption contents.
       $mediaRenderArray['#cache']['keys'][] =
         'caption-hash:' . Crypt::hashBase64($caption);
+
     }
 
     $mediaRenderArray['#embed'] = true;
