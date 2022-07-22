@@ -6,7 +6,9 @@ use Drupal\Core\Routing\RouteMatchInterface;
  * Implements \hook_help().
  */
 function omnipedia_media_help($routeName, RouteMatchInterface $routeMatch) {
+
   return \Drupal::service('omnipedia_media.help')->help(
     $routeName, $routeMatch
   );
+
 }
