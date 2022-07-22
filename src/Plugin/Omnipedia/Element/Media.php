@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Drupal\omnipedia_media\Plugin\Omnipedia\Element;
 
 use Drupal\Component\Utility\Crypt;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\omnipedia_content\PluginManager\OmnipediaElementManagerInterface;
@@ -36,24 +38,48 @@ class Media extends OmnipediaElementBase {
   protected EntityTypeManagerInterface $entityTypeManager;
 
   /**
+   * The Drupal media entity storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected EntityStorageInterface $mediaStorage;
+
+  /**
+   * The Drupal media entity view builder.
+   *
+   * @var \Drupal\Core\Entity\EntityViewBuilderInterface
+   */
+  protected EntityViewBuilderInterface $mediaViewBuilder;
+
+  /**
    * {@inheritdoc}
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The Drupal entity type manager.
+   *
+   * @param \Drupal\Core\Entity\EntityStorageInterface $mediaStorage
+   *   The Drupal media entity storage.
+   *
+   * @param \Drupal\Core\Entity\EntityViewBuilderInterface $mediaViewBuilder
+   *   The Drupal media entity view builder.
    */
   public function __construct(
     array $configuration, string $pluginID, array $pluginDefinition,
     OmnipediaElementManagerInterface $elementManager,
     TranslationInterface        $stringTranslation,
-    EntityTypeManagerInterface  $entityTypeManager
+    EntityTypeManagerInterface  $entityTypeManager,
+    EntityStorageInterface      $mediaStorage,
+    EntityViewBuilderInterface  $mediaViewBuilder
   ) {
     parent::__construct(
       $configuration, $pluginID, $pluginDefinition,
       $elementManager, $stringTranslation
     );
 
-    // Save dependencies.
-    $this->entityTypeManager = $entityTypeManager;
+    $this->entityTypeManager  = $entityTypeManager;
+    $this->mediaStorage       = $mediaStorage;
+    $this->mediaViewBuilder   = $mediaViewBuilder;
+
   }
 
   /**
@@ -67,7 +93,9 @@ class Media extends OmnipediaElementBase {
       $configuration, $pluginID, $pluginDefinition,
       $container->get('plugin.manager.omnipedia_element'),
       $container->get('string_translation'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('entity_type.manager')->getStorage('media'),
+      $container->get('entity_type.manager')->getViewBuilder('media')
     );
   }
 
@@ -116,12 +144,9 @@ class Media extends OmnipediaElementBase {
 
     $name = \trim($name);
 
-    /** @var \Drupal\Core\Entity\EntityStorageInterface */
-    $mediaStorage = $this->entityTypeManager->getStorage('media');
-
     // Try to find any media with this name.
     /** @var \Drupal\Core\Entity\EntityInterface[] */
-    $foundMedia = $mediaStorage->loadByProperties(['name' => $name]);
+    $foundMedia = $this->mediaStorage->loadByProperties(['name' => $name]);
 
     if (count($foundMedia) === 0) {
       /** @var \Drupal\Core\StringTranslation\TranslatableMarkup */
@@ -187,11 +212,9 @@ class Media extends OmnipediaElementBase {
       $viewMode = self::getTheme()['omnipedia_media']['variables']['view_mode'];
     }
 
+    // @todo $langcode?
     /** @var array */
-    $mediaRenderArray = $this->entityTypeManager
-      ->getViewBuilder('media')
-      // @todo $langcode?
-      ->view($mediaEntity, $viewMode);
+    $mediaRenderArray = $this->mediaViewBuilder->view($mediaEntity, $viewMode);
 
     if (!isset($mediaRenderArray['#attributes'])) {
       /** @var \Drupal\Core\Template\Attribute */
