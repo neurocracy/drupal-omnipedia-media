@@ -8,6 +8,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\core_event_dispatcher\Event\Entity\EntityPresaveEvent;
 use Drupal\file\FileInterface;
+use Drupal\file\FileStorageInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\media\MediaInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -40,14 +41,14 @@ class MediaPosterToThumbnailEventSubscriber implements EventSubscriberInterface 
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
-  protected $configFactory;
+  protected ConfigFactoryInterface $configFactory;
 
   /**
    * The Drupal file entity storage.
    *
    * @var \Drupal\file\FileStorageInterface
    */
-  protected $fileStorage;
+  protected FileStorageInterface $fileStorage;
 
   /**
    * Event subscriber constructor; saves dependencies.
