@@ -16,6 +16,24 @@ part of this codebase is useful or will inspire someone out there.
 
 ----
 
+# Description
+
+This contains plug-ins for embedding
+[media](/src/Plugin/Omnipedia/Element/Media.php) and [media
+groups](/src/Plugin/Omnipedia/Element/MediaGroup.php) on Omnipedia, [default
+configuration](/config) for media entities, [event
+subscribers](/src/EventSubscriber) to handle poster fields for local video media
+entities, and [some utilities](/src/Utility) for handling [`srcset`
+attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset)
+and [WebP
+images](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#webp_image).
+It also contains an optional patch for [the WebP
+module](https://www.drupal.org/project/webp) to [fix WebP image derivative
+generation on
+Windows](https://www.drupal.org/project/webp/issues/3161795#comment-14096421).
+
+----
+
 # Requirements
 
 * [Drupal 9](https://www.drupal.org/download) ([Drupal 8 is end-of-life](https://www.drupal.org/psa-2021-11-30))
