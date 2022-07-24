@@ -6,7 +6,7 @@ namespace Drupal\omnipedia_media\Plugin\Omnipedia\Element;
 
 use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Template\Attribute;
@@ -31,11 +31,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Media extends OmnipediaElementBase {
 
   /**
-   * The Drupal entity type manager.
+   * The media entity type definition.
    *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   * This is used to fetch the list cache tag programmatically without hard-
+   * coding it. It's applied to the error message so that it gets invalidated
+   * when media is updated, added, or deleted, to re-render this element in case
+   * it then is no longer an error but matches a valid media entity.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeInterface
    */
-  protected EntityTypeManagerInterface $entityTypeManager;
+  protected EntityTypeInterface $mediaEntityTypeDefinition;
 
   /**
    * The Drupal media entity storage.
@@ -54,8 +59,8 @@ class Media extends OmnipediaElementBase {
   /**
    * {@inheritdoc}
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The Drupal entity type manager.
+   * @param \Drupal\Core\Entity\EntityTypeInterface $mediaEntityTypeDefinition
+   *   The media entity type definition.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $mediaStorage
    *   The Drupal media entity storage.
@@ -67,7 +72,7 @@ class Media extends OmnipediaElementBase {
     array $configuration, string $pluginID, array $pluginDefinition,
     OmnipediaElementManagerInterface $elementManager,
     TranslationInterface        $stringTranslation,
-    EntityTypeManagerInterface  $entityTypeManager,
+    EntityTypeInterface         $mediaEntityTypeDefinition,
     EntityStorageInterface      $mediaStorage,
     EntityViewBuilderInterface  $mediaViewBuilder
   ) {
@@ -77,9 +82,9 @@ class Media extends OmnipediaElementBase {
       $elementManager, $stringTranslation
     );
 
-    $this->entityTypeManager  = $entityTypeManager;
-    $this->mediaStorage       = $mediaStorage;
-    $this->mediaViewBuilder   = $mediaViewBuilder;
+    $this->mediaEntityTypeDefinition  = $mediaEntityTypeDefinition;
+    $this->mediaStorage               = $mediaStorage;
+    $this->mediaViewBuilder           = $mediaViewBuilder;
 
   }
 
@@ -94,7 +99,7 @@ class Media extends OmnipediaElementBase {
       $configuration, $pluginID, $pluginDefinition,
       $container->get('plugin.manager.omnipedia_element'),
       $container->get('string_translation'),
-      $container->get('entity_type.manager'),
+      $container->get('entity_type.manager')->getDefinition('media'),
       $container->get('entity_type.manager')->getStorage('media'),
       $container->get('entity_type.manager')->getViewBuilder('media')
     );
@@ -166,20 +171,12 @@ class Media extends OmnipediaElementBase {
       $errorRenderArray = [
         '#theme'    => 'media_embed_error',
         '#message'  => $error,
+        '#cache'    => [
+          // Invalidated whenever media is updated, in case this element begins
+          // to match a media entity and is no longer an error.
+          'tags'  => $this->mediaEntityTypeDefinition->getListCacheTags(),
+        ],
       ];
-
-      // Get the media entity type definition so that we can get the list cache
-      // tag for the error message, so that the error message is invalidated
-      // when any media is edited/added, in case media will match this. Getting
-      // the cache tag this way is is considered a best practice over hard
-      // coding it.
-      /** @var \Drupal\Core\Entity\EntityTypeInterface|null */
-      $mediaEntityType = $this->entityTypeManager->getDefinition('media');
-
-      if ($mediaEntityType instanceof EntityTypeInterface) {
-        $errorRenderArray['#cache']['tags'] =
-          $mediaEntityType->getListCacheTags();
-      }
 
       return $errorRenderArray;
 
