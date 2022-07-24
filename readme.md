@@ -44,7 +44,7 @@ Windows](https://www.drupal.org/project/webp/issues/3161795#comment-14096421).
 
 ## Drupal dependencies
 
-* The [```ambientimpact_media``` module](https://github.com/Ambient-Impact/drupal-modules) must be present.
+* The [```ambientimpact_core``` and ```ambientimpact_media``` modules](https://github.com/Ambient-Impact/drupal-modules) must be present.
 
 ----
 

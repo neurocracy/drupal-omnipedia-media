@@ -5,6 +5,7 @@ package: Omnipedia
 core_version_requirement: ^9
 
 dependencies:
+  - ambientimpact_core:ambientimpact_core
   - ambientimpact_media:ambientimpact_media
   - drupal:file
   - drupal:image
