@@ -69,7 +69,7 @@ class Media extends OmnipediaElementBase {
    *   The Drupal media entity view builder.
    */
   public function __construct(
-    array $configuration, string $pluginID, array $pluginDefinition,
+    array $configuration, string $pluginId, array $pluginDefinition,
     OmnipediaElementManagerInterface $elementManager,
     TranslationInterface        $stringTranslation,
     EntityTypeInterface         $mediaEntityTypeDefinition,
@@ -78,7 +78,7 @@ class Media extends OmnipediaElementBase {
   ) {
 
     parent::__construct(
-      $configuration, $pluginID, $pluginDefinition,
+      $configuration, $pluginId, $pluginDefinition,
       $elementManager, $stringTranslation
     );
 
@@ -93,10 +93,10 @@ class Media extends OmnipediaElementBase {
    */
   public static function create(
     ContainerInterface $container,
-    array $configuration, $pluginID, $pluginDefinition
+    array $configuration, $pluginId, $pluginDefinition
   ) {
     return new static(
-      $configuration, $pluginID, $pluginDefinition,
+      $configuration, $pluginId, $pluginDefinition,
       $container->get('plugin.manager.omnipedia_element'),
       $container->get('string_translation'),
       $container->get('entity_type.manager')->getDefinition('media'),
