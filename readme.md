@@ -69,7 +69,7 @@ Then, in your root ```composer.json```, add the following to the
 ```"repositories"``` section:
 
 ```json
-{
+"drupal/omnipedia_media": {
   "type": "vcs",
   "url": "https://github.com/neurocracy/drupal-omnipedia-media.git"
 }
