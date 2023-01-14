@@ -44,7 +44,11 @@ Windows](https://www.drupal.org/project/webp/issues/3161795#comment-14096421).
 
 ## Drupal dependencies
 
-* The [```ambientimpact_core``` and ```ambientimpact_media``` modules](https://github.com/Ambient-Impact/drupal-modules) must be present.
+Follow the Composer installation instructions for these dependencies first:
+
+* The [```ambientimpact_core``` and ```ambientimpact_media``` modules](https://github.com/Ambient-Impact/drupal-modules).
+
+* The [`omnipedia_content`](https://github.com/neurocracy/drupal-omnipedia-content), and [`omnipedia_core`](https://github.com/neurocracy/drupal-omnipedia-core) modules.
 
 ## Front-end dependencies
 
