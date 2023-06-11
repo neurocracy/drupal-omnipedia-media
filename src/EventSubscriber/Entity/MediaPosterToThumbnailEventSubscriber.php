@@ -6,10 +6,10 @@ namespace Drupal\omnipedia_media\EventSubscriber\Entity;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\core_event_dispatcher\EntityHookEvents;
 use Drupal\core_event_dispatcher\Event\Entity\EntityPresaveEvent;
 use Drupal\file\FileInterface;
 use Drupal\file\FileStorageInterface;
-use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\media\MediaInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -72,7 +72,7 @@ class MediaPosterToThumbnailEventSubscriber implements EventSubscriberInterface 
    */
   public static function getSubscribedEvents() {
     return [
-      HookEventDispatcherInterface::ENTITY_PRE_SAVE => 'onEntityPreSave',
+      EntityHookEvents::ENTITY_PRE_SAVE => 'onEntityPreSave',
     ];
   }
 
