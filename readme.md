@@ -27,10 +27,6 @@ entities, and [some utilities](/src/Utility) for handling [`srcset`
 attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset)
 and [WebP
 images](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#webp_image).
-It also contains an optional patch for [the WebP
-module](https://www.drupal.org/project/webp) to [fix WebP image derivative
-generation on
-Windows](https://www.drupal.org/project/webp/issues/3161795#comment-14096421).
 
 ----
 
@@ -82,6 +78,41 @@ In your root `composer.json`, add the following to the `"repositories"` section:
   "url": "https://github.com/neurocracy/drupal-omnipedia-media.git"
 }
 ```
+
+### Patching
+
+This provides [one or more patches](#patches). These can be applied automatically by the the
+[`cweagans/composer-patches`](https://github.com/cweagans/composer-patches/tree/1.x)
+Composer plug-in, but some set up is required before installing this module.
+Notably, you'll need to [enable patching from
+dependencies](https://github.com/cweagans/composer-patches/tree/1.x#allowing-patches-to-be-applied-from-dependencies) (such as this module 🤓). At
+a minimum, you should have these values in your root `composer.json` (merge with
+existing keys as needed):
+
+
+```json
+{
+  "require": {
+    "cweagans/composer-patches": "^1.7.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "cweagans/composer-patches": true
+    }
+  },
+  "extra": {
+    "enable-patching": true,
+    "patchLevel": {
+      "drupal/core": "-p2"
+    }
+  }
+}
+
+```
+
+**Important**: The 1.x version of the plug-in is currently required because it
+allows for applying patches from a dependency; this is not implemented nor
+planned for the 2.x branch of the plug-in.
 
 ### Installing
 
@@ -157,6 +188,16 @@ from the root of your Drupal site. If you want to build just this package, run:
 ```
 yarn workspace drupal-omnipedia-media run build
 ```
+
+----
+
+# Patches
+
+The following patches are supplied (see [Patching](#patching) above):
+
+* [WebP module](https://www.drupal.org/project/webp):
+
+  * [Upper/lowercase checking on file extension causes image generation to fail due to token mismatch [#3161795]](https://www.drupal.org/project/webp/issues/3161795#comment-14096421)
 
 ----
 
