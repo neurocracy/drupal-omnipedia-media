@@ -43,7 +43,7 @@ images](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#w
 Before attempting to install this, you must add the Composer repositories as
 described in the installation instructions for these dependencies:
 
-* The [`ambientimpact_core` and `ambientimpact_media` modules](https://github.com/Ambient-Impact/drupal-modules).
+* The [`ambientimpact_core`](https://github.com/Ambient-Impact/drupal-ambientimpact-core) and [`ambientimpact_media`](https://github.com/Ambient-Impact/drupal-ambientimpact-media) modules.
 
 * The [`omnipedia_content`](https://github.com/neurocracy/drupal-omnipedia-content), and [`omnipedia_core`](https://github.com/neurocracy/drupal-omnipedia-core) modules.
 
