@@ -32,7 +32,7 @@ images](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#w
 
 # Requirements
 
-* [Drupal 9.5 or 10](https://www.drupal.org/download) ([Drupal 8 is end-of-life](https://www.drupal.org/psa-2021-11-30))
+* [Drupal 10.0](https://www.drupal.org/download)
 
 * PHP 8
 
@@ -117,7 +117,7 @@ planned for the 2.x branch of the plug-in.
 ### Installing
 
 Once you've completed all of the above, run `composer require
-"drupal/omnipedia_media:5.x-dev@dev"` in the root of your project to have
+"drupal/omnipedia_media:6.x-dev@dev"` in the root of your project to have
 Composer install this and its required dependencies for you.
 
 ## Front-end assets
@@ -141,7 +141,7 @@ Once those are defined, add the following to the `"dependencies"` section of
 your top-level `package.json`:
 
 ```json
-"drupal-omnipedia-media": "workspace:^5"
+"drupal-omnipedia-media": "workspace:^6"
 ```
 
 Then run `yarn install` and let Yarn do the rest.
@@ -212,3 +212,11 @@ The following major version bumps indicate breaking changes:
   * Requires Drupal 9.5 or [Drupal 10](https://www.drupal.org/project/drupal/releases/10.0.0).
 
   * Increases minimum version of [Hook Event Dispatcher](https://www.drupal.org/project/hook_event_dispatcher) to 3.1, removes deprecated code, and adds support for 4.0 which supports Drupal 10.
+
+* 6.x:
+
+  * Requires [Drupal 10.0](https://www.drupal.org/project/drupal/releases/10.0.0).
+
+  * Requires [Hook Event Dispatcher](https://www.drupal.org/project/hook_event_dispatcher) 4.0 which supports Drupal 10.
+
+  * Requires [`drupal/ambientimpact_media` 2.x](https://github.com/Ambient-Impact/drupal-ambientimpact-media/tree/2.x), which in turn requires Drupal 10.0.
