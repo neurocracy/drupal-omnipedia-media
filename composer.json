@@ -17,7 +17,7 @@
     "drupal/ambientimpact_core": "2.x-dev@dev",
     "drupal/ambientimpact_media": "2.x-dev@dev",
     "drupal/hook_event_dispatcher": "^4.0",
-    "drupal/omnipedia_content": "5.x-dev@dev",
+    "drupal/omnipedia_content": "6.x-dev@dev",
     "drupal/omnipedia_core": "4.x-dev@dev",
     "drupal/webp": "^1.0"
   },
