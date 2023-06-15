@@ -220,3 +220,5 @@ The following major version bumps indicate breaking changes:
   * Requires [Hook Event Dispatcher](https://www.drupal.org/project/hook_event_dispatcher) 4.0 which supports Drupal 10.
 
   * Requires [`drupal/ambientimpact_media` 2.x](https://github.com/Ambient-Impact/drupal-ambientimpact-media/tree/2.x), which in turn requires Drupal 10.0.
+
+  * Requires [`drupal/ambientimpact_core` 2.x](https://github.com/Ambient-Impact/drupal-ambientimpact-core/tree/2.x) 2.x for Drupal 10 support.

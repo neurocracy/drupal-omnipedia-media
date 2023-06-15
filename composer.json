@@ -14,7 +14,7 @@
     "php": "^8",
     "drupal/core": "^10.0",
     "cweagans/composer-patches": "^1.7",
-    "drupal/ambientimpact_core": "1.x-dev@dev",
+    "drupal/ambientimpact_core": "2.x-dev@dev",
     "drupal/ambientimpact_media": "2.x-dev@dev",
     "drupal/hook_event_dispatcher": "^4.0",
     "drupal/omnipedia_content": "5.x-dev@dev",
