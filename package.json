@@ -33,6 +33,6 @@
   },
   "dependencies": {
     "drupal-ambientimpact-core": "workspace:^2",
-    "drupal-ambientimpact-media": "workspace:^2"
+    "drupal-ambientimpact-media": "workspace:^2 || ^3"
   }
 }
