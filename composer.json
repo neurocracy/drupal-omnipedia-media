@@ -3,6 +3,10 @@
   "description": "Omnipedia - Media",
   "type": "drupal-custom-module",
   "license": "GPL-2.0-or-later",
+  "support": {
+    "docs": "https://github.com/neurocracy/drupal-omnipedia-media",
+    "source": "https://github.com/neurocracy/drupal-omnipedia-media"
+  },
   "authors": [
     {
       "name": "Ambient.Impact",
