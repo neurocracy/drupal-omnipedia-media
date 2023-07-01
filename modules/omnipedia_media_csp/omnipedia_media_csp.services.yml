@@ -1,0 +1,8 @@
+services:
+
+  omnipedia_media_csp.s3fs_policy_event_subscriber:
+    class: Drupal\omnipedia_media_csp\EventSubscriber\Csp\S3fsPolicyEventSubscriber
+    arguments:
+      - '@config.factory'
+    tags:
+      - { name: 'event_subscriber' }
