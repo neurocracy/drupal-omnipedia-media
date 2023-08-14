@@ -110,12 +110,16 @@ class MediaPosterToThumbnailEventSubscriber implements EventSubscriberInterface 
       'uri' => $defaultUri,
     ];
 
-      /** @var \Drupal\file\FileInterface[] */
-    $existing = $this->fileStorage->loadByProperties($values);
+    /** @var string[] Zero or more file entity IDs, keyed by their most recent revision ID. */
+    $queryResult = ($this->fileStorage->getQuery())
+      ->condition('uri', $values['uri'])
+      ->accessCheck(true)
+      ->execute();
 
-    if ($existing) {
+    if (count($queryResult) > 0) {
+
       /** @var \Drupal\file\FileInterface */
-      $file = \reset($existing);
+      $file = $this->fileStorage->load(\reset($queryResult));
 
     } else {
 

@@ -154,10 +154,13 @@ class Media extends OmnipediaElementBase {
     $name = \trim($name);
 
     // Try to find any media with this name.
-    /** @var \Drupal\Core\Entity\EntityInterface[] */
-    $foundMedia = $this->mediaStorage->loadByProperties(['name' => $name]);
+    /** @var string[] Zero or more media entity IDs, keyed by their most recent revision ID. */
+    $queryResult = ($this->mediaStorage->getQuery())
+      ->condition('name', $name)
+      ->accessCheck(true)
+      ->execute();
 
-    if (count($foundMedia) === 0) {
+    if (count($queryResult) === 0) {
 
       /** @var \Drupal\Core\StringTranslation\TranslatableMarkup */
       $error = $this->t(
@@ -182,11 +185,11 @@ class Media extends OmnipediaElementBase {
 
     }
 
-    // Grab the first media entity in the array.
+    // Load the first media entity in the query results.
     //
     // @todo What if there's more than one?
     /** @var \Drupal\media\MediaInterface */
-    $mediaEntity = \reset($foundMedia);
+    $mediaEntity = $this->mediaStorage->load(\reset($queryResult));
 
     /** @var \Drupal\Core\Template\Attribute */
     $containerAttributes = new Attribute();
