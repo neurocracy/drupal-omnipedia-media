@@ -9,7 +9,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
 use Drupal\core_event_dispatcher\Event\Entity\EntityPresaveEvent;
 use Drupal\file\FileInterface;
-use Drupal\file\FileStorageInterface;
 use Drupal\media\MediaInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -37,35 +36,18 @@ class MediaPosterToThumbnailEventSubscriber implements EventSubscriberInterface 
   protected const POSTER_FIELD_NAME = 'field_poster';
 
   /**
-   * The Drupal configuration factory service.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected ConfigFactoryInterface $configFactory;
-
-  /**
-   * The Drupal file entity storage.
-   *
-   * @var \Drupal\file\FileStorageInterface
-   */
-  protected FileStorageInterface $fileStorage;
-
-  /**
    * Event subscriber constructor; saves dependencies.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The Drupal configuration factory service.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The Drupal entity type plug-in manager.
+   *   The Drupal entity type manager.
    */
   public function __construct(
-    ConfigFactoryInterface      $configFactory,
-    EntityTypeManagerInterface  $entityTypeManager
-  ) {
-    $this->configFactory  = $configFactory;
-    $this->fileStorage    = $entityTypeManager->getStorage('file');
-  }
+    protected readonly ConfigFactoryInterface     $configFactory,
+    protected readonly EntityTypeManagerInterface $entityTypeManager,
+  ) {}
 
   /**
    * {@inheritdoc}
@@ -98,6 +80,9 @@ class MediaPosterToThumbnailEventSubscriber implements EventSubscriberInterface 
     MediaInterface $mediaEntity
   ): ?FileInterface {
 
+    /** @var \Drupal\file\FileStorageInterface The Drupal file entity storage. */
+    $fileStorage = $this->entityTypeManager->getStorage('file');
+
     /** @var string */
     $defaultThumbnailFilename = $mediaEntity->getSource()
       ->getPluginDefinition()['default_thumbnail_filename'];
@@ -111,7 +96,7 @@ class MediaPosterToThumbnailEventSubscriber implements EventSubscriberInterface 
     ];
 
     /** @var string[] Zero or more file entity IDs, keyed by their most recent revision ID. */
-    $queryResult = ($this->fileStorage->getQuery())
+    $queryResult = ($fileStorage->getQuery())
       ->condition('uri', $values['uri'])
       ->accessCheck(true)
       ->execute();
@@ -119,12 +104,12 @@ class MediaPosterToThumbnailEventSubscriber implements EventSubscriberInterface 
     if (count($queryResult) > 0) {
 
       /** @var \Drupal\file\FileInterface */
-      $file = $this->fileStorage->load(\reset($queryResult));
+      $file = $fileStorage->load(\reset($queryResult));
 
     } else {
 
       /** @var \Drupal\file\FileInterface */
-      $file = $this->fileStorage->create($values);
+      $file = $fileStorage->create($values);
 
       if ($owner = $mediaEntity->getOwner()) {
         $file->setOwner($owner);

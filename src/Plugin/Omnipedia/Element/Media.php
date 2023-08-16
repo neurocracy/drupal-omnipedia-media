@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Drupal\omnipedia_media\Plugin\Omnipedia\Element;
 
 use Drupal\Component\Utility\Crypt;
-use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Entity\EntityViewBuilderInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\omnipedia_content\PluginManager\OmnipediaElementManagerInterface;
@@ -31,60 +29,22 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Media extends OmnipediaElementBase {
 
   /**
-   * The media entity type definition.
-   *
-   * This is used to fetch the list cache tag programmatically without hard-
-   * coding it. It's applied to the error message so that it gets invalidated
-   * when media is updated, added, or deleted, to re-render this element in case
-   * it then is no longer an error but matches a valid media entity.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeInterface
-   */
-  protected EntityTypeInterface $mediaEntityTypeDefinition;
-
-  /**
-   * The Drupal media entity storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected EntityStorageInterface $mediaStorage;
-
-  /**
-   * The Drupal media entity view builder.
-   *
-   * @var \Drupal\Core\Entity\EntityViewBuilderInterface
-   */
-  protected EntityViewBuilderInterface $mediaViewBuilder;
-
-  /**
    * {@inheritdoc}
    *
-   * @param \Drupal\Core\Entity\EntityTypeInterface $mediaEntityTypeDefinition
-   *   The media entity type definition.
-   *
-   * @param \Drupal\Core\Entity\EntityStorageInterface $mediaStorage
-   *   The Drupal media entity storage.
-   *
-   * @param \Drupal\Core\Entity\EntityViewBuilderInterface $mediaViewBuilder
-   *   The Drupal media entity view builder.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The Drupal entity type manager.
    */
   public function __construct(
     array $configuration, string $pluginId, array $pluginDefinition,
     OmnipediaElementManagerInterface $elementManager,
     TranslationInterface        $stringTranslation,
-    EntityTypeInterface         $mediaEntityTypeDefinition,
-    EntityStorageInterface      $mediaStorage,
-    EntityViewBuilderInterface  $mediaViewBuilder
+    protected readonly EntityTypeManagerInterface $entityTypeManager,
   ) {
 
     parent::__construct(
       $configuration, $pluginId, $pluginDefinition,
-      $elementManager, $stringTranslation
+      $elementManager, $stringTranslation,
     );
-
-    $this->mediaEntityTypeDefinition  = $mediaEntityTypeDefinition;
-    $this->mediaStorage               = $mediaStorage;
-    $this->mediaViewBuilder           = $mediaViewBuilder;
 
   }
 
@@ -99,9 +59,7 @@ class Media extends OmnipediaElementBase {
       $configuration, $pluginId, $pluginDefinition,
       $container->get('plugin.manager.omnipedia_element'),
       $container->get('string_translation'),
-      $container->get('entity_type.manager')->getDefinition('media'),
-      $container->get('entity_type.manager')->getStorage('media'),
-      $container->get('entity_type.manager')->getViewBuilder('media')
+      $container->get('entity_type.manager'),
     );
   }
 
@@ -153,14 +111,22 @@ class Media extends OmnipediaElementBase {
 
     $name = \trim($name);
 
+    /** @var \Drupal\Core\Entity\EntityStorageInterface The Drupal media entity storage. */
+    $mediaStorage = $this->entityTypeManager->getStorage('media');
+
     // Try to find any media with this name.
     /** @var string[] Zero or more media entity IDs, keyed by their most recent revision ID. */
-    $queryResult = ($this->mediaStorage->getQuery())
+    $queryResult = ($mediaStorage->getQuery())
       ->condition('name', $name)
       ->accessCheck(true)
       ->execute();
 
     if (count($queryResult) === 0) {
+
+      /** @var \Drupal\Core\Entity\EntityTypeInterface The media entity type definition, for getting the list cache tag(s). */
+      $mediaEntityTypeDefinition = $this->entityTypeManager->getDefinition(
+        'media'
+      );
 
       /** @var \Drupal\Core\StringTranslation\TranslatableMarkup */
       $error = $this->t(
@@ -177,7 +143,7 @@ class Media extends OmnipediaElementBase {
         '#cache'    => [
           // Invalidated whenever media is updated, in case this element begins
           // to match a media entity and is no longer an error.
-          'tags'  => $this->mediaEntityTypeDefinition->getListCacheTags(),
+          'tags'  => $mediaEntityTypeDefinition->getListCacheTags(),
         ],
       ];
 
@@ -189,7 +155,7 @@ class Media extends OmnipediaElementBase {
     //
     // @todo What if there's more than one?
     /** @var \Drupal\media\MediaInterface */
-    $mediaEntity = $this->mediaStorage->load(\reset($queryResult));
+    $mediaEntity = $mediaStorage->load(\reset($queryResult));
 
     /** @var \Drupal\Core\Template\Attribute */
     $containerAttributes = new Attribute();
@@ -220,7 +186,9 @@ class Media extends OmnipediaElementBase {
 
     // @todo $langcode?
     /** @var array */
-    $mediaRenderArray = $this->mediaViewBuilder->view($mediaEntity, $viewMode);
+    $mediaRenderArray = $this->entityTypeManager->getViewBuilder('media')->view(
+      $mediaEntity, $viewMode,
+    );
 
     if (!isset($mediaRenderArray['#attributes'])) {
 
