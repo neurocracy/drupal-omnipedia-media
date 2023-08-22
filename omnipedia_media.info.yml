@@ -13,6 +13,7 @@ dependencies:
   - drupal:media
   - hook_event_dispatcher:core_event_dispatcher
   - hook_event_dispatcher:preprocess_event_dispatcher
+  - hux:hux
   - omnipedia_content:omnipedia_content
   - omnipedia_core:omnipedia_core
   - webp:webp
