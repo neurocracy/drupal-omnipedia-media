@@ -17,7 +17,6 @@
   "require": {
     "php": "^8.1",
     "drupal/core": "^10.0",
-    "cweagans/composer-patches": "^1.7",
     "drupal/ambientimpact_core": "2.x-dev@dev",
     "drupal/ambientimpact_media": "2.x-dev@dev || 3.x-dev@dev",
     "drupal/hook_event_dispatcher": "^4.0",
@@ -25,12 +24,5 @@
     "drupal/omnipedia_content": "6.x-dev@dev",
     "drupal/omnipedia_core": "4.x-dev@dev || 5.x-dev@dev",
     "drupal/webp": "^1.0"
-  },
-  "extra": {
-    "patches": {
-      "drupal/webp": {
-        "Upper/lowercase checking on file extension causes image generation to fail due to token mismatch [#3161795]: https://www.drupal.org/project/webp/issues/3161795#comment-14096421": "https://raw.githubusercontent.com/neurocracy/drupal-omnipedia-media/6.x/patches/drupal/webp/webp-replace-file-exists-call-with-entity-load-to-fix-image-generation-3161795-16.patch"
-      }
-    }
   }
 }
