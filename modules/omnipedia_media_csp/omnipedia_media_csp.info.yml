@@ -3,6 +3,7 @@ type: module
 description: Provides media integration with the <a href="https://www.drupal.org/project/csp">Content-Security-Policy module</a> for Omnipedia. Requires the <a href="https://www.drupal.org/project/s3fs">S3 File System module</a>.
 package: Omnipedia
 core_version_requirement: ^10.0
+php: 8.1
 
 dependencies:
   - csp:csp
