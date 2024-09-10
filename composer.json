@@ -18,7 +18,7 @@
     "php": "^8.1",
     "drupal/core": "^10.0",
     "drupal/ambientimpact_core": "^2.0@dev",
-    "drupal/ambientimpact_media": "^2.0@dev || ^3.0@dev || ^4.0@dev",
+    "drupal/ambientimpact_media": "^2.0@dev || ^3.0@dev || ^4.0@dev || ^5.0@dev",
     "drupal/hook_event_dispatcher": "^4.0",
     "drupal/hux": "^1.1",
     "drupal/omnipedia_content": "^6.0@dev",
