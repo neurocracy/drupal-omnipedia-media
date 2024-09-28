@@ -35,4 +35,16 @@
       margin-left:  media.$outer-spacing;
     }
   }
+
+  // If the media is displayed using the embedded group view mode, hide the
+  // media's caption in favour of the group's caption.
+  //
+  // Note that this needs to be done in the media stylesheet rather than the
+  // media_group stylesheet because the latter may be detached after navigating
+  // away to a page that doesn't have a media_group which cause some brief
+  // layout shifting due to the caption becoming visible.
+  .media--view-mode-omnipedia-embedded-group figcaption {
+    display: none;
+  }
+
 }
