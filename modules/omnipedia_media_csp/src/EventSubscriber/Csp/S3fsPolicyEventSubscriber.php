@@ -29,7 +29,8 @@ class S3fsPolicyEventSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents(): array {
     return [
-      CspEvents::POLICY_ALTER => 'onCspPolicyAlter',
+      // @see https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/content-security-policy/altering-a-sites-policy#s-default-policy-subscribers
+      CspEvents::POLICY_ALTER => ['onCspPolicyAlter', 254],
     ];
   }
 
