@@ -72,7 +72,7 @@ In your root `composer.json`, add the following to the `"repositories"` section:
 ### Installing
 
 Once you've completed all of the above, run `composer require
-"drupal/omnipedia_media:^6.0@dev"` in the root of your project to have
+"drupal/omnipedia_media:^7.0@dev"` in the root of your project to have
 Composer install this and its required dependencies for you.
 
 ## Front-end assets
@@ -96,7 +96,7 @@ Once those are defined, add the following to the `"dependencies"` section of
 your top-level `package.json`:
 
 ```json
-"drupal-omnipedia-media": "workspace:^6"
+"drupal-omnipedia-media": "workspace:^7"
 ```
 
 Then run `yarn install` and let Yarn do the rest.
