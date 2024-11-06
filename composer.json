@@ -21,7 +21,7 @@
     "drupal/ambientimpact_media": "^2.0@dev || ^3.0@dev || ^4.0@dev || ^5.0@dev",
     "drupal/hook_event_dispatcher": "^4.0",
     "drupal/hux": "^1.1",
-    "drupal/omnipedia_content": "^6.0@dev",
+    "drupal/omnipedia_content": "^6.0@dev || ^7.0@dev",
     "drupal/omnipedia_core": "^4.0@dev || ^5.0@dev || ^6.0@dev",
     "drupal/webp": "^1.0"
   }
