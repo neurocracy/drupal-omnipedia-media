@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Discover our Entity Usage plug-in if module is installed.
+ */
+function omnipedia_media_update_10701(): void {
+
+  if (\Drupal::hasService('plugin.manager.entity_usage.track') === false) {
+    return;
+  }
+
+  \Drupal::service(
+    'plugin.manager.entity_usage.track',
+  )->clearCachedDefinitions();
+
+}
