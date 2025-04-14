@@ -35,7 +35,7 @@ described in the installation instructions for these dependencies:
 
 * The [`ambientimpact_core`](https://github.com/Ambient-Impact/drupal-ambientimpact-core) and [`ambientimpact_media`](https://github.com/Ambient-Impact/drupal-ambientimpact-media) modules.
 
-* The [`omnipedia_content`](https://github.com/neurocracy/drupal-omnipedia-content) and [`omnipedia_core`](https://github.com/neurocracy/drupal-omnipedia-core) modules.
+* The [`omnipedia_content`](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-content) and [`omnipedia_core`](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-core) modules.
 
 ## Front-end dependencies
 
@@ -63,9 +63,10 @@ should get you up and running.
 In your root `composer.json`, add the following to the `"repositories"` section:
 
 ```json
-"drupal/omnipedia_media": {
+{
   "type": "vcs",
-  "url": "https://github.com/neurocracy/drupal-omnipedia-media.git"
+  "url": "https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-media.git",
+  "only": ["drupal/omnipedia_media"]
 }
 ```
 
@@ -149,7 +150,7 @@ The following major version bumps indicate breaking changes:
 
   * Requires [`drupal/ambientimpact_core` 2.x](https://github.com/Ambient-Impact/drupal-ambientimpact-core/tree/2.x) and [`drupal/ambientimpact_media` 2.x](https://github.com/Ambient-Impact/drupal-ambientimpact-media/tree/2.x) for Drupal 10 support.
 
-  * Requires [`drupal/omnipedia_content` 6.x](https://github.com/neurocracy/drupal-omnipedia-content/tree/6.x) for Drupal 10 support.
+  * Requires [`drupal/omnipedia_content` 6.x](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-content/tree/6.x) for Drupal 10 support.
 
 * 7.x:
 
