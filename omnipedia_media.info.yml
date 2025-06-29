@@ -11,6 +11,7 @@ dependencies:
   - drupal:file
   - drupal:image
   - drupal:media
+  - drupal:responsive_image
   - hook_event_dispatcher:core_event_dispatcher
   - hook_event_dispatcher:preprocess_event_dispatcher
   - hux:hux
@@ -26,4 +27,8 @@ config_devel:
     - core.entity_view_display.media.image.omnipedia_embedded_group
     - field.field.media.video.field_poster
     - field.storage.media.field_poster
-    - image.style.omnipedia_embedded_group
+    - image.style.omnipedia_embedded_group_1x
+    - image.style.omnipedia_embedded_group_2x
+    - responsive_image.styles.omnipedia_canonical
+    - responsive_image.styles.omnipedia_embedded
+    - responsive_image.styles.omnipedia_embedded_group
