@@ -16,3 +16,12 @@ function omnipedia_media_update_10701(): void {
   )->clearCachedDefinitions();
 
 }
+
+/**
+ * Clear cached filter plug-ins for addition of media conditional eager load.
+ */
+function omnipedia_media_update_10702(): void {
+
+  \Drupal::service('plugin.manager.filter')->clearCachedDefinitions();
+
+}
