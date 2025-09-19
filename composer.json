@@ -24,7 +24,7 @@
     "drupal/omnipedia_content": "^6.0@dev || ^7.0@dev",
     "drupal/omnipedia_core": "^4.0@dev || ^5.0@dev || ^6.0@dev",
     "drupal/webp": "^1.0",
-    "symfony/css-selector": "^6.2",
-    "symfony/dom-crawler": "^6.2"
+    "symfony/css-selector": "^6.2 || ^7.3",
+    "symfony/dom-crawler": "^6.2 || ^7.3"
   }
 }
